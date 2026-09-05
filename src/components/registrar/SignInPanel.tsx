@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { db, signInWithGoogle } from "@/lib/db";
 
 interface Props {
@@ -11,15 +11,50 @@ export default function SignInPanel({ onDone }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
+  const [waiting, setWaiting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const poll = useRef<number | null>(null);
+
+  // Never leave an interval running after the panel goes away.
+  useEffect(
+    () => () => {
+      if (poll.current !== null) window.clearInterval(poll.current);
+    },
+    [],
+  );
 
   async function google() {
     setError(null);
+    let mode: "popup" | "redirect";
     try {
-      await signInWithGoogle();
+      mode = await signInWithGoogle();
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Google sign-in failed.");
+      setError(
+        e instanceof Error
+          ? `${e.message} You can sign in with email instead.`
+          : "Google sign-in failed. You can sign in with email instead.",
+      );
+      return;
     }
+    if (mode !== "popup") return; // this tab is already on its way to Google
+
+    // Belt and braces: if the popup's message never lands, watch the session.
+    setWaiting(true);
+    const started = Date.now();
+    if (poll.current !== null) window.clearInterval(poll.current);
+    poll.current = window.setInterval(async () => {
+      const { data } = await db.auth.getSession();
+      if (data?.user) {
+        if (poll.current !== null) window.clearInterval(poll.current);
+        poll.current = null;
+        setWaiting(false);
+        await onDone();
+      } else if (Date.now() - started > 180000) {
+        if (poll.current !== null) window.clearInterval(poll.current);
+        poll.current = null;
+        setWaiting(false);
+      }
+    }, 2000);
   }
 
   async function submit(e: React.FormEvent) {
@@ -62,6 +97,10 @@ export default function SignInPanel({ onDone }: Props) {
         </svg>
         Continue with Google
       </button>
+
+      {waiting && (
+        <p className="acc mt-2">Waiting on the Google window. Nothing opened? Use email below.</p>
+      )}
 
       <div className="my-4 flex items-center gap-3">
         <span className="h-px flex-1 bg-[var(--color-rule)]" />

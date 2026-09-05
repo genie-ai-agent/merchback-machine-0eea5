@@ -1,34 +1,100 @@
 <!doctype html>
-<meta charset="utf-8" />
-<title>Signing you in…</title>
-<style>
-  body {
-    background: #f3eee1;
-    color: #1b1a17;
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    display: grid;
-    place-items: center;
-    height: 100vh;
-    margin: 0;
-  }
-</style>
-<p>Signing you in…</p>
-<script type="module">
-  import { createClient } from "https://esm.sh/@neondatabase/neon-js@0.7.0-beta";
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Signing you in…</title>
+    <style>
+      body {
+        background: #f3eee1;
+        color: #1b1a17;
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-size: 12px;
+        line-height: 1.7;
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 1.5rem;
+      }
+      .box {
+        border: 1px solid #1b1a17;
+        background: #fbf7ec;
+        padding: 1.25rem;
+        max-width: 26rem;
+      }
+      .label {
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        font-size: 10px;
+        color: #b23a2f;
+      }
+      p {
+        margin: 0.5rem 0 0;
+      }
+      a {
+        color: #1b1a17;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <p class="label" id="label">Staff entrance</p>
+      <p id="msg">Signing you in…</p>
+    </div>
 
-  const db = createClient({
-    auth: {
-      url: "https://ep-ancient-credit-aunjcn4f.neonauth.c-10.us-east-1.aws.neon.tech/neondb/auth",
-    },
-    dataApi: {
-      url: "https://ep-ancient-credit-aunjcn4f.apirest.c-10.us-east-1.aws.neon.tech/neondb/rest/v1",
-    },
-  });
+    <script type="module">
+      // Self-contained on purpose: `public/` is copied verbatim and never processed.
+      import { createClient } from "https://esm.sh/@neondatabase/neon-js@0.7.0-beta";
 
-  await db.auth.getSession();
-  window.opener?.postMessage("signed-in", window.location.origin);
-  window.close();
-</script>
+      const params = new URLSearchParams(window.location.search);
+      const raw = params.get("next") || "/registrar/";
+      // Only ever return to a path on this site.
+      const next = raw.startsWith("/") && !raw.startsWith("//") ? raw : "/registrar/";
+      const msg = document.getElementById("msg");
+      const label = document.getElementById("label");
+
+      function stop(text) {
+        label.textContent = "Sign-in failed";
+        msg.innerHTML = `${text}<br /><br /><a href="${next}">Back to the registrar's desk</a>`;
+      }
+
+      const oauthError =
+        params.get("error_description") || params.get("error") || params.get("message");
+
+      if (oauthError) {
+        stop(`Google returned: ${oauthError}. You can also sign in with email.`);
+      } else {
+        try {
+          const db = createClient({
+            auth: {
+              url: "https://ep-ancient-credit-aunjcn4f.neonauth.c-10.us-east-1.aws.neon.tech/neondb/auth",
+            },
+            dataApi: {
+              url: "https://ep-ancient-credit-aunjcn4f.apirest.c-10.us-east-1.aws.neon.tech/neondb/rest/v1",
+            },
+          });
+
+          const { data } = await db.auth.getSession();
+
+          if (!data?.user) {
+            stop("No session came back from Google. Try again, or sign in with email.");
+          } else if (window.opener && !window.opener.closed) {
+            // Popup path: tell the tab that opened us, then get out of the way.
+            window.opener.postMessage("signed-in", window.location.origin);
+            msg.textContent = "Signed in. Closing…";
+            window.close();
+            // If the browser refuses to close a tab it didn't script-open, walk back.
+            setTimeout(() => window.location.replace(next), 600);
+          } else {
+            // Redirect path (phones): no opener to talk to, so go back ourselves.
+            msg.textContent = "Signed in. Taking you back…";
+            window.location.replace(next);
+          }
+        } catch (e) {
+          stop(`Something went wrong finishing sign-in: ${e && e.message ? e.message : e}.`);
+        }
+      }
+    </script>
+  </body>
+</html>
