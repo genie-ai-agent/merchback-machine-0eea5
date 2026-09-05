@@ -62,6 +62,26 @@ export const PHOTOS: Record<string, Photo> = {
     creditUrl: "https://store.duolingo.com/products/duo-plushie",
     license: "brand product photo",
   },
+  "firefox-launch-tee": {
+    src: "/plates/firefox-launch-tee.png",
+    credit: "Photo: Mozilla Store, \u201cTail t-shirt\u201d",
+    creditUrl: "https://shop.mozilla.com/products/firefox-t-shirt",
+    license: "brand product photo",
+    note: "Mozilla's current Firefox tee. The 2004 launch shirt in the record is still undocumented.",
+  },
+  "netscape-mozilla-tee": {
+    src: "/plates/netscape-mozilla-tee.png",
+    credit: "Photo: Mozilla Store, \u201cMozilla Dino t-shirt\u201d",
+    creditUrl: "https://shop.mozilla.com/products/mozilla-dino-t-shirt",
+    license: "brand product photo",
+    note: "The Mozilla dinosaur as the house shop prints it today, standing in for the Netscape-era original.",
+  },
+  "digitalocean-sammy-plush": {
+    src: "/plates/digitalocean-sammy-plush.png",
+    credit: "Photo: DigitalOcean Swag Store, \u201cSammy Plush Toy\u201d",
+    creditUrl: "https://store.digitalocean.com/doswag/products",
+    license: "brand product photo",
+  },
   "zo-computer-tee": {
     src: "/plates/zo-computer-tee.png",
     credit: "Photo: Zo Computer store",
