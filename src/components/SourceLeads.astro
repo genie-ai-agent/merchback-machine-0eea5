@@ -1,0 +1,39 @@
+---
+import { LEAD_KIND_LABEL, leadsFor, type Lead } from "@/data/sources";
+
+interface Props {
+  id: string;
+  dense?: boolean;
+}
+const { id, dense = false } = Astro.props;
+const leads: Lead[] = leadsFor(id);
+
+const tint: Record<Lead["kind"], string> = {
+  official: "var(--color-capture)",
+  press: "var(--color-stamp)",
+  market: "var(--color-ink-2)",
+  commons: "#1d6f6f",
+  archive: "var(--color-ink-2)",
+  search: "var(--color-ink-3)",
+};
+---
+
+{
+  leads.length > 0 && (
+    <ul class={dense ? "flex flex-wrap gap-x-4 gap-y-1" : "space-y-2"}>
+      {leads.map((l) => (
+        <li class={dense ? "" : "flex flex-wrap items-baseline gap-x-3"}>
+          <span
+            class="acc inline-block shrink-0 tracking-[0.1em] uppercase"
+            style={`color:${tint[l.kind]}`}
+          >
+            {LEAD_KIND_LABEL[l.kind]}
+          </span>
+          <a href={l.url} target="_blank" rel="noopener nofollow" class="acc underline-ink">
+            {l.label} ↗
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}

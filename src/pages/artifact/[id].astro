@@ -2,6 +2,9 @@
 import Layout from "@/layouts/Layout.astro";
 import SpecimenPlate from "@/components/SpecimenPlate.tsx";
 import ArtifactTile from "@/components/ArtifactTile.astro";
+import SourceLeads from "@/components/SourceLeads.astro";
+import { photoFor } from "@/data/photos";
+import { leadsFor } from "@/data/sources";
 import {
   ALL,
   RARITY_LABEL,
@@ -22,6 +25,8 @@ const wing = wingFor(artifact.year);
 const siblings = byCompany(artifact.companySlug).filter((a) => a.id !== artifact.id);
 const sameYear = ALL.filter((a) => a.year === artifact.year && a.id !== artifact.id).slice(0, 4);
 const related = (siblings.length ? siblings : sameYear).slice(0, 4);
+const photo = photoFor(artifact.id);
+const leads = leadsFor(artifact.id);
 ---
 
 <Layout
@@ -40,12 +45,54 @@ const related = (siblings.length ? siblings : sameYear).slice(0, 4);
     <article class="mt-4 grid gap-8 md:grid-cols-[minmax(0,320px)_1fr]">
       <div>
         <div class="scanlines frame relative">
-          <SpecimenPlate artifact={artifact} />
+          {
+            photo ? (
+              <img
+                src={photo.src}
+                alt={photo.alt ?? `${artifact.name}, ${artifact.company}, ${artifact.year}`}
+                loading="lazy"
+                class="block h-auto w-full"
+              />
+            ) : (
+              <SpecimenPlate artifact={artifact} />
+            )
+          }
         </div>
-        <p class="acc mt-2 text-[var(--color-ink-3)]">
-          Fig. {accession(artifact)} — illustrated specimen plate. The archive holds no photographs;
-          plates are drawn from the recorded colorway.
-        </p>
+        {
+          photo ? (
+            <p class="acc mt-2 text-[var(--color-ink-3)]">
+              Fig. {accession(artifact)} —{" "}
+              {photo.creditUrl ? (
+                <a href={photo.creditUrl} target="_blank" rel="noopener nofollow" class="underline-ink">
+                  {photo.credit}
+                </a>
+              ) : (
+                photo.credit
+              )}
+              {photo.license && <span> · {photo.license}</span>}
+            </p>
+          ) : (
+            <p class="acc mt-2 text-[var(--color-ink-3)]">
+              Fig. {accession(artifact)} — illustrated specimen plate. The archive holds no
+              photograph of this object yet; the plate is drawn from the recorded colorway.
+            </p>
+          )
+        }
+
+        {
+          leads.length > 0 && (
+            <div class="mt-6 border-t-2 border-ink pt-4">
+              <p class="meta">{photo ? "Further leads" : "Where a photograph lives"}</p>
+              <div class="mt-3">
+                <SourceLeads id={artifact.id} />
+              </div>
+              <p class="acc mt-4 text-[var(--color-ink-3)]">
+                Found one? <a href="/sources" class="underline-ink">Rights &amp; Reproduction</a> has
+                the two-step for bringing it in with a credit.
+              </p>
+            </div>
+          )
+        }
       </div>
 
       <div>

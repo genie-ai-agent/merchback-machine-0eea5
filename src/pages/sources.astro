@@ -1,0 +1,170 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import SourceLeads from "@/components/SourceLeads.astro";
+import { ALL, YEAR_BARS, accession, typeLabel } from "@/data/collection";
+import { DIRECTORIES, LEAD_KIND_LABEL, SOURCES_CHECKED, leadsFor } from "@/data/sources";
+import { PHOTO_COUNT } from "@/data/photos";
+
+const yearsWithItems = YEAR_BARS.filter((b) => b.count > 0);
+const leadTotal = ALL.reduce((n, a) => n + leadsFor(a.id).length, 0);
+const withOfficial = ALL.filter((a) => leadsFor(a.id).some((l) => l.kind === "official")).length;
+---
+
+<Layout
+  title="Rights & Reproduction — Merchback Machine"
+  description="Where to find a photograph of every object in the collection, and who to credit for it."
+  compact={true}
+>
+  <div class="mx-auto max-w-6xl px-4 py-8">
+    <p class="meta"><a href="/" class="underline-ink">Front Desk</a> / Rights &amp; Reproduction</p>
+
+    <h2 class="mt-3 font-display text-3xl leading-tight font-bold sm:text-5xl">
+      Rights &amp; Reproduction
+    </h2>
+    <p class="mt-4 max-w-3xl text-base leading-relaxed">
+      The archive draws its own specimen plates because it holds no photographs and won't pass off a
+      generated image as one. This is the reading-room desk for fixing that: for every object, the
+      places a real photograph actually lives, so a picture can be brought in with a credit line
+      attached instead of appearing from nowhere.
+    </p>
+
+    <dl class="mt-8 grid grid-cols-2 gap-4 border-y-2 border-ink py-5 sm:grid-cols-4">
+      <div>
+        <dt class="meta">Records</dt>
+        <dd class="mt-1 font-display text-3xl font-bold">{ALL.length}</dd>
+      </div>
+      <div>
+        <dt class="meta">Leads filed</dt>
+        <dd class="mt-1 font-display text-3xl font-bold">{leadTotal}</dd>
+      </div>
+      <div>
+        <dt class="meta">With a brand source</dt>
+        <dd class="mt-1 font-display text-3xl font-bold">{withOfficial}</dd>
+      </div>
+      <div>
+        <dt class="meta">Photographs on loan</dt>
+        <dd class="mt-1 font-display text-3xl font-bold">{PHOTO_COUNT}</dd>
+      </div>
+    </dl>
+
+    <section class="mt-12 grid gap-8 lg:grid-cols-[1.15fr_1fr]">
+      <div class="frame bg-[var(--color-card)] p-5 sm:p-6">
+        <h3 class="font-display text-xl font-bold">Accessioning a photograph</h3>
+        <ol class="mt-4 space-y-4">
+          <li class="flex gap-3">
+            <span class="acc shrink-0 text-[var(--color-stamp)]">01</span>
+            <p class="text-sm leading-relaxed">
+              Save the image as <code class="acc">public/plates/&lt;artifact-id&gt;.jpg</code> — the
+              id is the last part of the record's URL, and it's in the register below.
+            </p>
+          </li>
+          <li class="flex gap-3">
+            <span class="acc shrink-0 text-[var(--color-stamp)]">02</span>
+            <p class="text-sm leading-relaxed">
+              Add one line to <code class="acc">src/data/photos.ts</code> with the file path, the
+              credit line and the link back to the source. The file has a worked example commented
+              out at the top.
+            </p>
+          </li>
+          <li class="flex gap-3">
+            <span class="acc shrink-0 text-[var(--color-stamp)]">03</span>
+            <p class="text-sm leading-relaxed">
+              The record swaps the drawn plate for the photograph and prints the credit underneath.
+              Miss the second step and it just keeps showing the plate — nothing breaks.
+            </p>
+          </li>
+        </ol>
+        <a
+          href="/image-sources.csv"
+          download
+          class="mt-6 inline-block border border-ink bg-ink px-4 py-2.5 font-mono text-[0.65rem] tracking-[0.14em] uppercase text-[var(--color-paper)] transition-colors hover:bg-[var(--color-stamp)]"
+        >
+          Download worksheet (CSV)
+        </a>
+        <p class="acc mt-3 text-[var(--color-ink-3)]">
+          55 rows, one per object, with two blank columns for the filename and the credit you land
+          on.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="font-display text-xl font-bold">Standing sources</h3>
+        <p class="mt-3 text-sm leading-relaxed">
+          Worth a browse whenever a record's own leads come up dry. Wikimedia Commons is the only one
+          of these that hands over a reuse licence with the file; everything else needs a credit and,
+          strictly, a nod from whoever took the picture.
+        </p>
+        <ul class="mt-4 space-y-2 border-t border-rule pt-4">
+          {
+            DIRECTORIES.map((d) => (
+              <li class="flex flex-wrap items-baseline gap-x-3">
+                <span class="acc shrink-0 tracking-[0.1em] uppercase text-[var(--color-ink-3)]">
+                  {LEAD_KIND_LABEL[d.kind]}
+                </span>
+                <a href={d.url} target="_blank" rel="noopener nofollow" class="acc underline-ink">
+                  {d.label} ↗
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="acc mt-5 text-[var(--color-ink-3)]">
+          Leads checked {SOURCES_CHECKED}. Shop URLs that redirected to a marketing homepage were
+          struck rather than guessed at, so some records run on resale and Wayback leads only.
+        </p>
+      </div>
+    </section>
+
+    <section class="mt-16">
+      <div class="flex flex-wrap items-end justify-between gap-2 border-b-2 border-ink pb-2">
+        <h3 class="font-display text-2xl font-bold">Register of leads</h3>
+        <p class="meta">{ALL.length} records · {leadTotal} leads</p>
+      </div>
+
+      <div class="mt-8 space-y-12">
+        {
+          yearsWithItems.map((bar) => (
+            <div>
+              <div class="flex items-center gap-3">
+                <h4 class="font-display text-xl font-bold">
+                  <a href={`/year/${bar.year}`} class="underline-ink">
+                    {bar.year}
+                  </a>
+                </h4>
+                <span class="h-px flex-1 bg-[var(--color-rule)]" />
+                <span class="meta">{bar.count} {bar.count === 1 ? "object" : "objects"}</span>
+              </div>
+
+              <div class="mt-4 space-y-6">
+                {bar.items.map((a) => (
+                  <div class="grid gap-3 border-t border-rule pt-4 md:grid-cols-[minmax(0,260px)_1fr]">
+                    <div>
+                      <p class="acc text-[var(--color-capture)]">{accession(a)}</p>
+                      <p class="mt-1 font-display text-base font-bold leading-tight">
+                        <a href={`/artifact/${a.id}`} class="underline-ink">
+                          {a.name}
+                        </a>
+                      </p>
+                      <p class="acc mt-1 text-[var(--color-ink-2)]">
+                        {a.company} · {typeLabel(a.type)}
+                      </p>
+                      <p class="acc mt-1 text-[var(--color-ink-3)]">id: {a.id}</p>
+                    </div>
+                    <SourceLeads id={a.id} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <p class="acc mt-16 max-w-3xl leading-relaxed text-[var(--color-ink-2)]">
+      A note on rights: a listing photo belongs to whoever shot it, and a brand's product shot
+      belongs to the brand. Linking back is the courtesy the archive runs on, and for anything more
+      prominent than a catalogue thumbnail it's worth asking first. Commons files carry their licence
+      with them, which is why they're listed on every record.
+    </p>
+  </div>
+</Layout>
