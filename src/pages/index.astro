@@ -3,6 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import TimelineStrip from "@/components/TimelineStrip.astro";
 import ArtifactTile from "@/components/ArtifactTile.astro";
 import SpecimenPlate from "@/components/SpecimenPlate.tsx";
+import { photoFor } from "@/data/photos";
 import { byId, accession } from "@/data/collection";
 import {
   ALL,
@@ -83,6 +84,9 @@ const wingCounts = WINGS.map((w) => ({
                 {hero.company} · {hero.year} · {hero.type}
               </p>
               <p class="meta mt-2 text-[var(--color-stamp)]">On display in the rotunda</p>
+              <p class="meta mt-0.5 text-[var(--color-ink-3)]">
+                {photoFor(hero.id) ? "photographed" : "drawing \u00b7 no photo on file"}
+              </p>
             </div>
           </aside>
         )

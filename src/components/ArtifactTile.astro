@@ -1,12 +1,14 @@
 ---
 import SpecimenPlate from "@/components/SpecimenPlate.tsx";
 import { accession, typeLabel } from "@/data/collection";
+import { photoFor } from "@/data/photos";
 import type { Artifact } from "@/data/types";
 
 interface Props {
   artifact: Artifact;
 }
 const { artifact } = Astro.props;
+const photo = photoFor(artifact.id);
 ---
 
 <a href={`/artifact/${artifact.id}`} class="plate frame group relative block">
@@ -16,7 +18,22 @@ const { artifact } = Astro.props;
     )
   }
   <div class="scanlines relative border-b border-ink">
-    <SpecimenPlate artifact={artifact} />
+    {
+      photo ? (
+        <img
+          src={photo.src}
+          alt={photo.alt ?? `${artifact.name}, ${artifact.company}, ${artifact.year}`}
+          loading="lazy"
+          decoding="async"
+          class="block aspect-square w-full bg-[#f1ebdc] object-contain"
+        />
+      ) : (
+        <SpecimenPlate artifact={artifact} />
+      )
+    }
+    <span class="acc absolute bottom-1 left-1 bg-[var(--color-card)] px-1 py-0.5 text-[0.5rem] text-[var(--color-ink-3)]">
+      {photo ? "photo" : "drawing"}
+    </span>
   </div>
   <div class="p-3">
     <p class="acc text-[var(--color-capture)]">{accession(artifact)}</p>

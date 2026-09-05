@@ -190,4 +190,22 @@ export const LINEAGE_EDGES: LineageEdge[] = [
     kind: "capital",
     note: "So did Nat Friedman, GitHub's CEO through the Microsoft years.",
   },
+  {
+    from: "netscape",
+    to: "aol",
+    kind: "acquired",
+    note: "AOL bought Netscape in 1999 in a stock deal worth about $4.2 billion.",
+  },
+  {
+    from: "aol",
+    to: "time-warner",
+    kind: "acquired",
+    note: "The January 2001 merger, valued at roughly $165 billion. AOL came off the name in 2003.",
+  },
+  {
+    from: "betaworks",
+    to: "dots",
+    kind: "spinout",
+    note: "Dots was designed inside betaworks in 2013 and spun out as Playdots the year after.",
+  },
 ];

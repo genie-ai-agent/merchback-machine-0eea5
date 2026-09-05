@@ -1,7 +1,23 @@
 import { useEffect, useMemo, useState } from "react";
 import SpecimenPlate from "@/components/SpecimenPlate";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { photoFor } from "@/data/photos";
 import type { Artifact } from "@/data/types";
+
+/** A photograph if the archive has one, otherwise the drawn plate. */
+function Plate({ artifact }: { artifact: Artifact }) {
+  const photo = photoFor(artifact.id);
+  if (!photo) return <SpecimenPlate artifact={artifact} />;
+  return (
+    <img
+      src={photo.src}
+      alt={photo.alt ?? `${artifact.name}, ${artifact.company}, ${artifact.year}`}
+      loading="lazy"
+      decoding="async"
+      className="block aspect-square w-full bg-[#f1ebdc] object-contain"
+    />
+  );
+}
 
 interface Props {
   artifacts: Artifact[];
@@ -224,7 +240,10 @@ export default function ArchiveBrowser({
                 <span className="stamp absolute top-2 right-2 z-10 bg-[var(--color-card)]">grail</span>
               )}
               <div className="scanlines relative border-b border-ink">
-                <SpecimenPlate artifact={a} />
+                <Plate artifact={a} />
+                <span className="acc absolute bottom-1 left-1 bg-[var(--color-card)] px-1 py-0.5 text-[0.5rem] text-[var(--color-ink-3)]">
+                  {photoFor(a.id) ? "photo" : "drawing"}
+                </span>
               </div>
               <div className="p-3">
                 <p className="acc text-[var(--color-capture)]">{accessions[a.id]}</p>
@@ -283,7 +302,7 @@ export default function ArchiveBrowser({
             <div>
               <div className="grid sm:grid-cols-[200px_1fr]">
                 <div className="scanlines relative border-b border-ink sm:border-r sm:border-b-0">
-                  <SpecimenPlate artifact={open} />
+                  <Plate artifact={open} />
                 </div>
                 <div className="p-5">
                   <p className="acc text-[var(--color-capture)]">{accessions[open.id]}</p>

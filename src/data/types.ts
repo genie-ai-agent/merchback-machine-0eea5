@@ -59,7 +59,7 @@ export const WINGS: Wing[] = [
   {
     id: "protocol",
     name: "Protocol Wing",
-    from: 1994,
+    from: 1993,
     to: 2001,
     blurb:
       "Browser wars, IPO tube socks, conference-booth cotton. Proof you were in the building.",

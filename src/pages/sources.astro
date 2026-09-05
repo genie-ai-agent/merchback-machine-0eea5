@@ -4,6 +4,7 @@ import SourceLeads from "@/components/SourceLeads.astro";
 import { ALL, YEAR_BARS, accession, typeLabel } from "@/data/collection";
 import { DIRECTORIES, LEAD_KIND_LABEL, SOURCES_CHECKED, leadsFor } from "@/data/sources";
 import { PHOTO_COUNT } from "@/data/photos";
+import { WANTED } from "@/data/wanted";
 
 const yearsWithItems = YEAR_BARS.filter((b) => b.count > 0);
 const leadTotal = ALL.reduce((n, a) => n + leadsFor(a.id).length, 0);
@@ -146,6 +147,37 @@ const withOfficial = ALL.filter((a) => leadsFor(a.id).some((l) => l.kind === "of
                   </div>
                 ))}
               </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="mt-16 border-t-2 border-ink pt-8">
+      <div class="flex flex-wrap items-baseline gap-3">
+        <h3 class="font-display text-2xl font-bold sm:text-3xl">Want list</h3>
+        <span class="meta">{WANTED.length} · named, not yet accessioned</span>
+      </div>
+      <p class="mt-3 max-w-2xl text-sm leading-relaxed">
+        Companies the archive has been asked for and cannot describe honestly yet. No record is
+        written until there is an actual object, a year, and a photograph.
+      </p>
+
+      <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          WANTED.map((w) => (
+            <div class="frame bg-[var(--color-card)] p-4">
+              <p class="acc text-[var(--color-stamp)]">wanted</p>
+              <h4 class="mt-1 font-display text-lg font-bold">{w.company}</h4>
+              <p class="mt-2 text-sm leading-snug">{w.wanted}</p>
+              <p class="acc mt-2 leading-relaxed text-[var(--color-ink-2)]">{w.gap}</p>
+              {w.lead && (
+                <p class="acc mt-2">
+                  <a href={w.lead.url} target="_blank" rel="noopener nofollow" class="underline-ink">
+                    {w.lead.label}
+                  </a>
+                </p>
+              )}
             </div>
           ))
         }

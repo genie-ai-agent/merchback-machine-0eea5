@@ -70,10 +70,13 @@ const leads = leadsFor(artifact.id);
                 photo.credit
               )}
               {photo.license && <span> · {photo.license}</span>}
+              {photo.note && (
+                <span class="mt-1 block normal-case text-[var(--color-ink-2)]">{photo.note}</span>
+              )}
             </p>
           ) : (
             <p class="acc mt-2 text-[var(--color-ink-3)]">
-              Fig. {accession(artifact)} — illustrated plate, drawn from the recorded colorway.
+              Fig. {accession(artifact)} — no photograph on file. Drawing, not the object.
             </p>
           )
         }

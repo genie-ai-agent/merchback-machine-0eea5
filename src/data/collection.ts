@@ -116,11 +116,13 @@ export const FEATURED_IDS = [
   "anthropic-thinking-cap",
   "cursor-tab-key",
   "netscape-mozilla-tee",
+  "aol-timewarner-merger-tee",
   "venmo-tee",
   "ifttt-argyle-socks",
   "openai-devday-token-plaque",
   "jelly-house-tee",
   "redhat-shadowman-fedora",
+  "allen-co-sun-valley-vest",
 ];
 
 export const FEATURED: Artifact[] = FEATURED_IDS.map((id) => byId(id)).filter(

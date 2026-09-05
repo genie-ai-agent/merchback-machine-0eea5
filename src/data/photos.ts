@@ -1,16 +1,15 @@
 /**
  * Photographs on loan.
  *
- * The archive ships illustrated specimen plates by default. When you have a real photo
- * you are allowed to show, do two things:
+ * A record shows a real photograph the moment there is one to show; otherwise it falls
+ * back to the drawn plate, clearly marked as a drawing. To accession a photo:
  *
- *   1. Drop the file in `public/plates/` (e.g. `public/plates/cursor-tab-key.jpg`).
- *      Keep it under ~400 KB, roughly square, and named after the artifact id.
- *   2. Add one line to PHOTOS below, keyed by that same artifact id.
+ *   1. Drop the file in `public/plates/`, named after the artifact id.
+ *   2. Add one entry to PHOTOS below, keyed by that same id.
  *
- * `credit` is printed under the image and `creditUrl` links back to where it came from,
- * so the record carries its own attribution. Leave an entry out and the record quietly
- * falls back to the drawn plate — nothing breaks.
+ * `credit` prints under the image, `creditUrl` links back to where it came from, and
+ * `note` is for the honest caveat: a photo of the current production run standing in
+ * for an older original, a colourway that differs, a stand-in object.
  */
 
 export interface Photo {
@@ -24,15 +23,51 @@ export interface Photo {
   license?: string;
   /** Optional alt text override. */
   alt?: string;
+  /** Honest caveat printed in small type under the credit. */
+  note?: string;
 }
 
 export const PHOTOS: Record<string, Photo> = {
-  // "cursor-tab-key": {
-  //   src: "/plates/cursor-tab-key.jpg",
-  //   credit: "Photo: Cursor",
-  //   creditUrl: "https://swagalogue.com/company/cursor",
-  //   license: "used with permission",
-  // },
+  "github-octocat-sticker": {
+    src: "/plates/github-octocat-sticker.jpg",
+    credit: "Photo: The GitHub Shop, \u201cMona Octocat Stickers\u201d",
+    creditUrl: "https://shop.github.com/products/ghsp-0004-mona-octocat-stickers",
+    license: "brand product photo",
+    note: "Current shop run. The 2008 sticker sheet in the record is still undocumented.",
+  },
+  "figma-config-tote": {
+    src: "/plates/figma-config-tote.png",
+    credit: "Photo: The Figma Store, \u201cEcho tote\u201d",
+    creditUrl: "https://store.figma.com/products/echo-tote",
+    license: "brand product photo",
+    note: "Stands in for the conference tote: same store, current run, not the Config-year bag.",
+  },
+  "supabase-launch-week-hoodie": {
+    src: "/plates/supabase-launch-week-hoodie.png",
+    credit: "Photo: supabase.store",
+    creditUrl: "https://supabase.store/products/supabase-hoodie",
+    license: "brand product photo",
+    note: "The house hoodie as the shop lists it today; Launch Week runs differ year to year.",
+  },
+  "railway-conductor-cap": {
+    src: "/plates/railway-conductor-cap.jpg",
+    credit: "Photo: Railway Shop, \u201cFive Panel Hat\u201d",
+    creditUrl: "https://shop.railway.com/products/five-panel-cap-1",
+    license: "brand product photo",
+    note: "Railway's current cap, photographed by the shop.",
+  },
+  "duolingo-duo-plush": {
+    src: "/plates/duolingo-duo-plush.png",
+    credit: "Photo: Duolingo Store, \u201cDuo Plushie\u201d",
+    creditUrl: "https://store.duolingo.com/products/duo-plushie",
+    license: "brand product photo",
+  },
+  "zo-computer-tee": {
+    src: "/plates/zo-computer-tee.png",
+    credit: "Photo: Zo Computer store",
+    creditUrl: "https://zo-computer.canarycanary.com/store",
+    license: "brand product photo",
+  },
 };
 
 export function photoFor(id: string): Photo | undefined {
