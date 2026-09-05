@@ -1,0 +1,30 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import RegistrarDesk from "@/components/registrar/RegistrarDesk";
+---
+
+<Layout
+  title="Registrar's desk — Merchback Machine"
+  description="Staff view of the donation intake log for the Merchback Machine."
+  compact={true}
+>
+  <div class="mx-auto max-w-6xl px-4 py-8">
+    <div class="border-b-2 border-ink pb-3">
+      <p class="stamp">staff only</p>
+      <h1 class="mt-4 font-display text-3xl font-bold sm:text-4xl">Registrar's desk</h1>
+      <p class="mt-2 max-w-2xl text-base leading-relaxed">
+        Every artifact offered to the archive lands here first: what it is, who has it, and the story
+        that came with it. Nothing on this page is public.
+      </p>
+    </div>
+
+    <div class="mt-6">
+      <RegistrarDesk client:load />
+    </div>
+
+    <p class="acc mt-8 border-t border-rule pt-4">
+      Donors use the <a href="/about#donate" class="underline-ink">intake form</a> and never need an
+      account.
+    </p>
+  </div>
+</Layout>

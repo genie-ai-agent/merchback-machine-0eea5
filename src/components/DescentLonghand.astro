@@ -1,0 +1,48 @@
+---
+import { EDGES_BY_KIND, nodeName } from "@/data/lineage";
+
+const groups = EDGES_BY_KIND.filter((g) => g.edges.length > 0);
+---
+
+<section id="longhand" class="mt-14">
+  <div class="border-b-2 border-ink pb-2">
+    <p class="meta">Finding aid</p>
+    <h2 class="mt-1 font-display text-2xl font-bold">The lines, in longhand</h2>
+  </div>
+
+  <div class="mt-6 space-y-8">
+    {
+      groups.map((group) => (
+        <div>
+          <div class="flex items-center gap-3">
+            <svg width="34" height="6" aria-hidden="true">
+              <line
+                x1="0"
+                y1="3"
+                x2="34"
+                y2="3"
+                stroke={group.style.color}
+                stroke-width={group.style.width}
+                stroke-dasharray={group.style.dash}
+              />
+            </svg>
+            <h3 class="font-display text-base font-bold">{group.style.label}</h3>
+            <span class="meta">{group.edges.length}</span>
+          </div>
+          <ul class="mt-3 divide-y divide-[var(--color-rule)] border-y border-rule">
+            {group.edges.map((e) => (
+              <li class="py-2.5">
+                <p class="acc">
+                  <span>{nodeName(e.from)}</span>
+                  <span style={`color:${group.style.color}`}> &rarr; </span>
+                  <span>{nodeName(e.to)}</span>
+                </p>
+                <p class="mt-0.5 text-sm leading-snug">{e.note}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</section>

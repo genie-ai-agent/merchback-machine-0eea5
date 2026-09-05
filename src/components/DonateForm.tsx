@@ -17,6 +17,13 @@ const OBJECT_TYPES = [
   ["oddity", "Oddity"],
 ] as const;
 
+const RARITIES = [
+  ["common", "Common — they printed thousands"],
+  ["uncommon", "Uncommon — a conference run, a launch week"],
+  ["rare", "Rare — employees and close friends only"],
+  ["grail", "Grail — people ask about it by name"],
+] as const;
+
 const field =
   "w-full border border-ink bg-[var(--color-paper)] px-3 py-2.5 font-mono text-sm placeholder:text-[var(--color-ink-3)] focus:outline-none focus:ring-2 focus:ring-[var(--color-capture)]";
 const lbl = "meta mb-1 block";
@@ -40,7 +47,10 @@ export default function DonateForm() {
           company: String(fd.get("company") ?? "").trim(),
           year: Number(fd.get("year")),
           object_type: String(fd.get("object_type") ?? ""),
+          rarity: String(fd.get("rarity") ?? ""),
           notes: String(fd.get("notes") ?? "").trim(),
+          lore: String(fd.get("lore") ?? "").trim() || undefined,
+          source_url: String(fd.get("source_url") ?? "").trim() || undefined,
           submitter_name: String(fd.get("submitter_name") ?? "").trim(),
           submitter_email: String(fd.get("submitter_email") ?? "").trim(),
         }),
@@ -132,6 +142,18 @@ export default function DonateForm() {
           </select>
         </div>
         <div>
+          <label className={lbl} htmlFor="d-rarity">
+            Rarity *
+          </label>
+          <select id="d-rarity" name="rarity" required defaultValue="uncommon" className={field}>
+            {RARITIES.map(([id, label]) => (
+              <option key={id} value={id}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
           <label className={lbl} htmlFor="d-name">
             Your name *
           </label>
@@ -158,6 +180,36 @@ export default function DonateForm() {
             placeholder="What is it, where did you get it, what makes it worth keeping?"
             className={field}
           />
+        </div>
+        <div className="sm:col-span-2">
+          <label className={lbl} htmlFor="d-lore">
+            Lore <span className="normal-case">(optional)</span>
+          </label>
+          <textarea
+            id="d-lore"
+            name="lore"
+            minLength={3}
+            maxLength={1200}
+            rows={3}
+            placeholder="The story nobody outside the company would know. Why it exists, who fought over it, what went wrong at the printer."
+            className={field}
+          />
+        </div>
+        <div className="sm:col-span-2">
+          <label className={lbl} htmlFor="d-source">
+            Photo or listing link <span className="normal-case">(optional)</span>
+          </label>
+          <input
+            id="d-source"
+            name="source_url"
+            type="url"
+            maxLength={500}
+            placeholder="https://…"
+            className={field}
+          />
+          <p className="acc mt-1 text-[var(--color-ink-3)]">
+            Where the object or a photo of it lives, so we can credit it properly.
+          </p>
         </div>
       </div>
 

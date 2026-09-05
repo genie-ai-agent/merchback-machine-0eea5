@@ -1,0 +1,91 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import LineageMap from "@/components/LineageMap";
+import DescentLonghand from "@/components/DescentLonghand.astro";
+import { COMPANIES } from "@/data/collection";
+import {
+  CHAINS,
+  CONTEXT_COUNT,
+  LINEAGE_EDGES,
+  LINEAGE_NODES,
+  LINKED_COUNT,
+  nodeName,
+} from "@/data/lineage";
+
+const holdings: Record<string, number> = Object.fromEntries(
+  COMPANIES.map((c) => [c.slug, c.count]),
+);
+
+const longest = CHAINS[0] ?? [];
+
+const stats = [
+  {
+    label: "On the chart",
+    value: String(LINEAGE_NODES.length),
+    sub: `${CONTEXT_COUNT} context nodes`,
+  },
+  { label: "Lines drawn", value: String(LINEAGE_EDGES.length), sub: "all publicly reported" },
+  {
+    label: "Connected",
+    value: `${LINKED_COUNT}/${LINEAGE_NODES.length}`,
+    sub: "touch at least one line",
+  },
+  { label: "Longest run", value: String(longest.length), sub: "companies in one family" },
+];
+
+const longestNames = longest.slice(0, 10).map((s) => nodeName(s)).join(" \u00b7 ");
+---
+
+<Layout
+  title="Descent chart — Merchback Machine"
+  description="How the companies in the archive connect: founders who did it twice, spinouts, acquisitions, YC batches and the cheques in between, 1993 to 2026."
+  compact={true}
+>
+  <div class="mx-auto max-w-6xl px-4 py-8">
+    <div class="border-b-2 border-ink pb-3">
+      <p class="stamp">wall chart</p>
+      <h1 class="mt-4 font-display text-3xl font-bold sm:text-4xl">Descent chart</h1>
+      <p class="mt-2 max-w-2xl text-base leading-relaxed">
+        The same people keep showing up. Every line here is a founder who did it twice, a spinout, an
+        acquisition, a YC batch, or a cheque.
+      </p>
+    </div>
+
+    <dl class="mt-6 grid grid-cols-2 gap-px border border-ink bg-[var(--color-rule)] sm:grid-cols-4">
+      {
+        stats.map((s) => (
+          <div class="bg-[var(--color-card)] px-3 py-3">
+            <dt class="meta">{s.label}</dt>
+            <dd class="mt-1 font-display text-2xl font-bold">{s.value}</dd>
+            <dd class="acc mt-0.5 text-[var(--color-ink-3)]">{s.sub}</dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <div class="mt-8">
+      <LineageMap holdings={holdings} client:load />
+    </div>
+
+    {
+      longest.length > 0 && (
+        <p class="acc mt-6 border-l-2 border-[var(--color-capture)] pl-3 leading-relaxed">
+          Largest family on the chart, {longest.length} deep: {longestNames}
+          {longest.length > 10 ? ` \u00b7 +${longest.length - 10} more` : ""}
+        </p>
+      )
+    }
+
+    <DescentLonghand />
+
+    <section class="frame mt-14 p-4 sm:p-6">
+      <p class="meta">On method</p>
+      <p class="mt-2 text-sm leading-relaxed">
+        Only relationships reported publicly at the time: no “these feel related” lines, no inferred
+        mentorship, no unannounced cap tables. Boxes sit at founding years as commonly reported, which
+        for a few companies is the incorporation date rather than the year the idea started. Something
+        missing or wrong? <a href="/about#donate" class="underline-ink">Tell the registrar</a>.
+      </p>
+    </section>
+  </div>
+</Layout>
