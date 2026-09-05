@@ -30,16 +30,14 @@ const wingCounts = WINGS.map((w) => ({
       <div class="grid gap-10 lg:grid-cols-[1.1fr_300px] lg:items-center">
       <div>
       <p class="font-mono text-[0.6rem] tracking-[0.2em] uppercase text-[var(--color-capture-2)]">
-        Est. one afternoon · Holdings {FIRST_YEAR}–{LAST_YEAR} · Admission free
+        Holdings {FIRST_YEAR}–{LAST_YEAR} · Admission free
       </p>
       <h2 class="mt-4 max-w-3xl font-display text-2xl leading-tight font-bold sm:text-4xl">
         Every startup ships a shirt. Almost nobody keeps the receipt.
       </h2>
-      <p class="mt-4 max-w-2xl text-sm leading-relaxed text-[var(--color-paper-2)] sm:text-base">
-        This is a museum for the cotton, the caps, the stickers and the very strange one-offs — the
-        Cursor tab key, the Anthropic <em>thinking</em> cap, the Venmo blue tee, IFTTT's argyle socks,
-        a literal Red Hat fedora. {ALL.length} objects, catalogued by year and by company, with the
-        dating shown honestly.
+      <p class="mt-4 max-w-xl text-sm leading-relaxed text-[var(--color-paper-2)] sm:text-base">
+        {ALL.length} objects, catalogued by year and by company. The Cursor tab key, the Anthropic{" "}
+        <em>thinking</em> cap, IFTTT's argyle socks, a literal Red Hat fedora.
       </p>
 
       <form action="/browse" method="get" class="mt-7 max-w-xl">
@@ -47,7 +45,7 @@ const wingCounts = WINGS.map((w) => ({
           for="hero-q"
           class="block font-mono text-[0.6rem] tracking-[0.18em] uppercase text-[var(--color-capture-2)]"
         >
-          Enter a company, an object, a year
+          Company, object, year
         </label>
         <div class="mt-2 flex items-stretch">
           <input
@@ -65,9 +63,7 @@ const wingCounts = WINGS.map((w) => ({
           </button>
         </div>
         <p class="mt-2 font-mono text-[0.6rem] tracking-[0.1em] text-[var(--color-capture-2)]">
-          {YEARS_WITH_HOLDINGS.length} years with holdings · {COMPANIES.length} companies · {
-            TYPE_COUNTS.length
-          } object classes
+          {YEARS_WITH_HOLDINGS.length} years · {COMPANIES.length} companies · {TYPE_COUNTS.length} classes
         </p>
       </form>
       </div>
@@ -101,7 +97,7 @@ const wingCounts = WINGS.map((w) => ({
     <section class="mt-16">
       <div class="flex flex-wrap items-end justify-between gap-2 border-b-2 border-ink pb-2">
         <h2 class="font-display text-xl font-bold sm:text-2xl">The four wings</h2>
-        <p class="meta">Merch history, roughly divided</p>
+        <p class="meta">1994–2026</p>
       </div>
       <div class="mt-5 grid gap-4 sm:grid-cols-2">
         {
@@ -138,7 +134,7 @@ const wingCounts = WINGS.map((w) => ({
     <section class="mt-16">
       <div class="flex flex-wrap items-end justify-between gap-2 border-b-2 border-ink pb-2">
         <h2 class="font-display text-xl font-bold sm:text-2xl">By object class</h2>
-        <p class="meta">What startups actually print on</p>
+        <p class="meta">{TYPE_COUNTS.length} classes</p>
       </div>
       <div class="mt-5 flex flex-wrap gap-2">
         {
@@ -158,7 +154,7 @@ const wingCounts = WINGS.map((w) => ({
     <section id="companies" class="mt-16 scroll-mt-6">
       <div class="flex flex-wrap items-end justify-between gap-2 border-b-2 border-ink pb-2">
         <h2 class="font-display text-xl font-bold sm:text-2xl">Companies represented</h2>
-        <p class="meta">{COMPANIES.length} entries · alphabetical</p>
+        <p class="meta">{COMPANIES.length} · A–Z</p>
       </div>
       <div class="mt-5 grid grid-cols-2 gap-x-6 gap-y-0 sm:grid-cols-3 lg:grid-cols-4">
         {
@@ -185,12 +181,10 @@ const wingCounts = WINGS.map((w) => ({
     <section class="mt-16 border-2 border-ink bg-[var(--color-paper-2)] p-6 sm:p-8">
       <p class="stamp">gaps acknowledged</p>
       <h2 class="mt-4 font-display text-xl font-bold sm:text-2xl">
-        The collection is incomplete on purpose. Help close it.
+        The collection is incomplete on purpose.
       </h2>
-      <p class="mt-3 max-w-2xl text-sm leading-relaxed">
-        Have a shirt from a company that no longer exists? A conference badge nobody remembers? A
-        keycap, a plush, a hat with one lowercase word on it? Send it to the registrar and it gets an
-        accession number.
+      <p class="mt-3 max-w-xl text-sm leading-relaxed">
+        Send the registrar a shirt, a keycap, a badge nobody remembers. It gets an accession number.
       </p>
       <a
         href="/about#donate"

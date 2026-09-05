@@ -13,43 +13,33 @@ import { ALL, CATALOGUE_UPDATED, COMPANIES, DOCUMENTED_COUNT, FIRST_YEAR, LAST_Y
 
     <div class="mt-6 space-y-5 text-base leading-relaxed">
       <p>
-        Startup merch is the only artifact most companies produce that outlives their product. The
-        code gets rewritten, the domain gets parked, the office gets subleased — and the shirt stays in
-        somebody's drawer for fifteen years. The Merchback Machine catalogues that shirt.
+        Merch is the only artifact most companies produce that outlives their product. The code gets
+        rewritten, the domain gets parked, and the shirt stays in somebody's drawer for fifteen years.
       </p>
       <p>
-        The collection currently holds <strong>{ALL.length} objects</strong> from{" "}
-        <strong>{COMPANIES.length} companies</strong>, spanning {FIRST_YEAR} to {LAST_YEAR}: tees,
-        hoodies, caps, socks, stickers, pins, plushies, keycaps, a hardcover imprint, a fedora, and a
-        handful of things that fit no category at all.
+        <strong>{ALL.length} objects</strong> from <strong>{COMPANIES.length} companies</strong>,{" "}
+        {FIRST_YEAR}–{LAST_YEAR}: tees, caps, socks, stickers, pins, plushies, keycaps, a hardcover, a
+        fedora, and a few things that fit no category at all.
       </p>
 
       <h3 class="mt-10 border-b border-ink pb-1 font-display text-lg font-bold">On dating</h3>
       <p>
-        {DOCUMENTED_COUNT} of {ALL.length} records carry a <strong>documented</strong> year — the drop
-        itself was publicly reported. The rest are marked <strong>estimated</strong>, and shown with a{" "}
-        <span class="acc">≈</span> on every card: the year is anchored to the product, campaign or
-        logo era the object belongs to, not to a verified production run. Merch is badly documented by
-        nature. Nobody files a press release about a sock.
-      </p>
-      <p>
-        If you can date one properly — a receipt, an order confirmation, a photo with a timestamp — the
-        registrar wants to hear about it.
+        {DOCUMENTED_COUNT} of {ALL.length} records carry a documented year. The rest are marked{" "}
+        <span class="acc">≈</span> — anchored to the product or campaign era, not a verified production
+        run. Nobody files a press release about a sock. If you can date one properly, the registrar
+        wants to hear it.
       </p>
 
       <h3 class="mt-10 border-b border-ink pb-1 font-display text-lg font-bold">On the plates</h3>
       <p>
-        Every object is shown as an illustrated <em>specimen plate</em>: a drawn reconstruction in the
-        recorded colorway, not a photograph. This is deliberate. The archive holds no photography
-        rights, and a drawing is honest about being an interpretation — an approach the natural history
-        museums used for two centuries before cameras got cheap.
+        Every object is a drawn <em>specimen plate</em> in the recorded colorway, not a photograph.
+        The archive holds no photography rights, and a drawing is honest about being an interpretation.
       </p>
 
       <h3 class="mt-10 border-b border-ink pb-1 font-display text-lg font-bold">On scarcity</h3>
       <p>
-        “Widely distributed” through “grail” is a curatorial index of how hard a piece is to get hold
-        of today, not an appraisal. Nothing here is for sale and nothing here is valued. If a listing
-        somewhere says otherwise, that's the market talking, not the museum.
+        “Widely distributed” through “grail” indexes how hard a piece is to find today. It isn't an
+        appraisal: nothing here is for sale and nothing here is valued.
       </p>
     </div>
 
@@ -58,9 +48,8 @@ import { ALL, CATALOGUE_UPDATED, COMPANIES, DOCUMENTED_COUNT, FIRST_YEAR, LAST_Y
         <p class="stamp">accession desk</p>
         <h2 class="mt-4 font-display text-2xl font-bold sm:text-3xl">Donate an artifact</h2>
         <p class="mt-2 text-sm leading-relaxed">
-          Describe the object and it goes into the accession queue for the next catalogue revision.
-          Corrections to existing records are just as welcome — name the accession number in the record
-          field.
+          Describe the object and it joins the accession queue. Corrections welcome too — name the
+          accession number in the record field.
         </p>
       </div>
       <div class="mt-6">

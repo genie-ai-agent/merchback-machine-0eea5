@@ -62,7 +62,7 @@ export const WINGS: Wing[] = [
     from: 1994,
     to: 2001,
     blurb:
-      "Browser wars, IPO tube socks, and the conference-booth cotton tee. Merch as proof you were in the building when the web got commercial.",
+      "Browser wars, IPO tube socks, conference-booth cotton. Proof you were in the building.",
   },
   {
     id: "social",
@@ -70,7 +70,7 @@ export const WINGS: Wing[] = [
     from: 2002,
     to: 2011,
     blurb:
-      "Web 2.0 gloss, rounded logos, laptop-lid sticker culture. The era where a startup's whole identity fit on a 3-inch die-cut.",
+      "Web 2.0 gloss, rounded logos, laptop-lid sticker culture. Whole identities on a 3-inch die-cut.",
   },
   {
     id: "cloud",
@@ -78,7 +78,7 @@ export const WINGS: Wing[] = [
     from: 2012,
     to: 2019,
     blurb:
-      "Developer-relations budgets meet the sock. Conference swag becomes a supply chain, and mascots go plush.",
+      "Developer-relations budgets meet the sock. Swag becomes a supply chain, mascots go plush.",
   },
   {
     id: "model",
@@ -86,6 +86,6 @@ export const WINGS: Wing[] = [
     from: 2020,
     to: 2026,
     blurb:
-      "Merch as status object. Small runs, no logos, one word on a washed cap, and a line down the block to get it.",
+      "Merch as status object. Small runs, no logos, one word on a washed cap.",
   },
 ];

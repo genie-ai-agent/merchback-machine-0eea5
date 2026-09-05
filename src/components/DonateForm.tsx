@@ -54,7 +54,7 @@ export default function DonateForm() {
       form.reset();
       setState("done");
     } catch {
-      setError("Could not reach the accession desk. Nothing was filed — try again in a moment.");
+      setError("Couldn't reach the accession desk. Nothing was filed — try again.");
       setState("error");
     }
   }
@@ -65,8 +65,7 @@ export default function DonateForm() {
         <p className="stamp">accession pending</p>
         <h3 className="mt-4 font-display text-xl font-bold">Filed with the registrar</h3>
         <p className="acc mx-auto mt-2 max-w-md">
-          Your submission is in the queue. If it checks out, it gets an accession number and a
-          specimen plate in the next catalogue revision.
+          In the queue. If it checks out, it gets an accession number and a plate.
         </p>
         <button type="button" onClick={() => setState("idle")} className="acc mt-4 underline-ink">
           Submit another object
@@ -143,9 +142,7 @@ export default function DonateForm() {
             Your email *
           </label>
           <input id="d-email" name="submitter_email" type="email" required className={field} />
-          <p className="acc mt-1 text-[var(--color-ink-3)]">
-            Only used to ask you about the object. Not published.
-          </p>
+          <p className="acc mt-1 text-[var(--color-ink-3)]">Not published.</p>
         </div>
         <div className="sm:col-span-2">
           <label className={lbl} htmlFor="d-notes">
@@ -158,7 +155,7 @@ export default function DonateForm() {
             minLength={10}
             maxLength={1200}
             rows={5}
-            placeholder="What is it, where did you get it, what makes it worth keeping? Colorway, print method, run size, anything you know about the drop."
+            placeholder="What is it, where did you get it, what makes it worth keeping?"
             className={field}
           />
         </div>
@@ -178,7 +175,7 @@ export default function DonateForm() {
         >
           {state === "sending" ? "Filing…" : "Submit to the registrar"}
         </button>
-        <p className="meta">Reviewed by hand before accession</p>
+        <p className="meta">Reviewed by hand</p>
       </div>
     </form>
   );
