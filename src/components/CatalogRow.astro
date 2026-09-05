@@ -1,0 +1,22 @@
+---
+import { accession, typeLabel, RARITY_LABEL } from "@/data/collection";
+import type { Artifact } from "@/data/types";
+
+interface Props {
+  artifact: Artifact;
+}
+const { artifact } = Astro.props;
+---
+
+<a
+  href={`/artifact/${artifact.id}`}
+  class="group grid grid-cols-[auto_1fr] items-baseline gap-x-4 gap-y-1 border-b border-rule py-3 transition-colors hover:bg-[var(--color-paper-2)] sm:grid-cols-[7.5rem_1fr_9rem_7rem]"
+>
+  <span class="acc text-[var(--color-capture)]">{accession(artifact)}</span>
+  <span class="font-display text-sm font-bold group-hover:text-[var(--color-stamp)]">
+    {artifact.name}
+    <span class="meta ml-2">{artifact.company}</span>
+  </span>
+  <span class="meta col-start-2 sm:col-start-3">{typeLabel(artifact.type)}</span>
+  <span class="meta col-start-2 sm:col-start-4 sm:text-right">{RARITY_LABEL[artifact.rarity]}</span>
+</a>

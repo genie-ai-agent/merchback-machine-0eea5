@@ -1,0 +1,39 @@
+---
+import TimelineBar from "@/components/TimelineBar.astro";
+import { YEAR_BARS } from "@/data/collection";
+
+interface Props {
+  activeYear?: number;
+  heading?: string;
+}
+const { activeYear, heading = "Capture timeline" } = Astro.props;
+---
+
+<section id="timeline" class="scroll-mt-6">
+  <div class="flex flex-wrap items-end justify-between gap-2 border-b-2 border-ink pb-2">
+    <h2 class="font-display text-xl font-bold sm:text-2xl">{heading}</h2>
+    <p class="meta">Objects accessioned per year · tap a bar</p>
+  </div>
+
+  <div class="no-scrollbar mt-5 overflow-x-auto pb-2">
+    <div class="flex min-w-max items-end gap-[3px] sm:gap-[5px]">
+      {
+        YEAR_BARS.map((bar) =>
+          bar.count === 0 ? (
+            <div aria-hidden="true">
+              <TimelineBar year={bar.year} count={0} />
+            </div>
+          ) : (
+            <a
+              href={`/year/${bar.year}`}
+              title={`${bar.year}: ${bar.count} object${bar.count === 1 ? "" : "s"}`}
+              class="block"
+            >
+              <TimelineBar year={bar.year} count={bar.count} active={activeYear === bar.year} />
+            </a>
+          ),
+        )
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,59 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import TimelineStrip from "@/components/TimelineStrip.astro";
+import ArtifactTile from "@/components/ArtifactTile.astro";
+import { YEARS_WITH_HOLDINGS, byYear, wingFor } from "@/data/collection";
+
+export function getStaticPaths() {
+  return YEARS_WITH_HOLDINGS.map((year) => ({ params: { year: String(year) } }));
+}
+
+const year = Number(Astro.params.year);
+const items = byYear(year);
+const wing = wingFor(year);
+const idx = YEARS_WITH_HOLDINGS.indexOf(year);
+const prev = YEARS_WITH_HOLDINGS[idx - 1];
+const next = YEARS_WITH_HOLDINGS[idx + 1];
+const companies = [...new Set(items.map((i) => i.company))];
+---
+
+<Layout
+  title={`${year} in startup merch — Merchback Machine`}
+  description={`Startup merch accessioned for ${year}: ${companies.join(", ")}.`}
+  compact={true}
+>
+  <div class="mx-auto max-w-6xl px-4 py-8">
+    <nav class="meta">
+      <a href="/" class="underline-ink">Front desk</a> / <a href="/#timeline" class="underline-ink">Timeline</a> / {year}
+    </nav>
+
+    <div class="mt-4 flex flex-wrap items-end justify-between gap-4 border-b-2 border-ink pb-3">
+      <div>
+        <p class="meta">{wing.name}</p>
+        <h2 class="font-display text-4xl leading-none font-bold sm:text-6xl">{year}</h2>
+      </div>
+      <div class="text-right">
+        <p class="acc">
+          {items.length} object{items.length === 1 ? "" : "s"} · {companies.length} compan{
+            companies.length === 1 ? "y" : "ies"
+          }
+        </p>
+        <p class="meta mt-1">
+          {prev && <a href={`/year/${prev}`} class="underline-ink">← {prev}</a>}
+          {prev && next && <span class="mx-2">·</span>}
+          {next && <a href={`/year/${next}`} class="underline-ink">{next} →</a>}
+        </p>
+      </div>
+    </div>
+
+    <p class="mt-4 max-w-2xl text-sm leading-relaxed">{wing.blurb}</p>
+
+    <div class="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
+      {items.map((a) => <ArtifactTile artifact={a} />)}
+    </div>
+
+    <div class="mt-16">
+      <TimelineStrip activeYear={year} heading="Where this sits" />
+    </div>
+  </div>
+</Layout>

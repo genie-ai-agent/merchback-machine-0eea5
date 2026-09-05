@@ -1,0 +1,45 @@
+---
+import { ALL, CATALOGUE_UPDATED, COMPANIES, DOCUMENTED_COUNT, FIRST_YEAR, LAST_YEAR } from "@/data/collection";
+---
+
+<footer class="mt-20 border-t-2 border-ink bg-[var(--color-paper-2)]">
+  <div class="mx-auto max-w-6xl px-4 py-10">
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      <div>
+        <p class="meta">Holdings</p>
+        <p class="mt-1 font-display text-3xl font-bold">{ALL.length}</p>
+        <p class="acc mt-1">objects catalogued</p>
+      </div>
+      <div>
+        <p class="meta">Coverage</p>
+        <p class="mt-1 font-display text-3xl font-bold">{FIRST_YEAR}–{LAST_YEAR}</p>
+        <p class="acc mt-1">{COMPANIES.length} companies represented</p>
+      </div>
+      <div>
+        <p class="meta">Dating</p>
+        <p class="mt-1 font-display text-3xl font-bold">{DOCUMENTED_COUNT}/{ALL.length}</p>
+        <p class="acc mt-1">records with a documented year</p>
+      </div>
+      <div>
+        <p class="meta">Reading room</p>
+        <ul class="mt-2 space-y-1">
+          <li><a href="/browse" class="acc underline-ink">Browse all holdings</a></li>
+          <li><a href="/#timeline" class="acc underline-ink">Capture timeline</a></li>
+          <li><a href="/about" class="acc underline-ink">Curator's note</a></li>
+          <li><a href="/about#donate" class="acc underline-ink">Donate an artifact</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-10 border-t border-rule pt-5">
+      <p class="acc max-w-3xl leading-relaxed">
+        The Merchback Machine is a non-commercial fan archive. Company names, logos and marks belong
+        to their respective owners and appear here for identification and commentary. Specimen plates
+        are illustrated reconstructions, not photographs. Years marked <em>estimated</em> are
+        curatorial best guesses anchored to the product or campaign the object belongs to — if you
+        can date one properly, <a href="/about#donate" class="underline-ink">tell the front desk</a>.
+      </p>
+      <p class="meta mt-4">Catalogue revision {CATALOGUE_UPDATED} · Built for the fun of it</p>
+    </div>
+  </div>
+</footer>

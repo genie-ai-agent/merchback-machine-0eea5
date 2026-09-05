@@ -1,0 +1,35 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import ArchiveBrowser from "@/components/ArchiveBrowser";
+import { ALL, COMPANIES, RARITY_LABEL, TYPE_COUNTS, WINGS, accession } from "@/data/collection";
+
+const accessions = Object.fromEntries(ALL.map((a) => [a.id, accession(a)]));
+const typeOptions = TYPE_COUNTS.map((t) => ({ id: t.id, label: t.label, count: t.count }));
+const companyOptions = COMPANIES.map((c) => ({ slug: c.slug, name: c.name, count: c.count }));
+const wings = WINGS.map((w) => ({ id: w.id, name: w.name, from: w.from, to: w.to }));
+---
+
+<Layout title="Browse the holdings — Merchback Machine" compact={true}>
+  <div class="mx-auto max-w-6xl px-4 py-8">
+    <div class="border-b-2 border-ink pb-3">
+      <p class="meta">Reading room</p>
+      <h2 class="mt-1 font-display text-2xl font-bold sm:text-3xl">Finding aid</h2>
+      <p class="mt-2 max-w-2xl text-sm leading-relaxed">
+        The full catalogue, searchable. Every plate is an illustrated reconstruction; the years marked
+        with ≈ are curatorial estimates rather than documented drop dates.
+      </p>
+    </div>
+
+    <div class="mt-6">
+      <ArchiveBrowser
+        client:load
+        artifacts={ALL}
+        accessions={accessions}
+        typeOptions={typeOptions}
+        companyOptions={companyOptions}
+        wings={wings}
+        rarityLabels={RARITY_LABEL}
+      />
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,150 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import SpecimenPlate from "@/components/SpecimenPlate.tsx";
+import ArtifactTile from "@/components/ArtifactTile.astro";
+import {
+  ALL,
+  RARITY_LABEL,
+  accession,
+  byCompany,
+  neighbors,
+  typeLabel,
+  wingFor,
+} from "@/data/collection";
+
+export function getStaticPaths() {
+  return ALL.map((a) => ({ params: { id: a.id }, props: { artifact: a } }));
+}
+
+const { artifact } = Astro.props;
+const { prev, next } = neighbors(artifact.id);
+const wing = wingFor(artifact.year);
+const siblings = byCompany(artifact.companySlug).filter((a) => a.id !== artifact.id);
+const sameYear = ALL.filter((a) => a.year === artifact.year && a.id !== artifact.id).slice(0, 4);
+const related = (siblings.length ? siblings : sameYear).slice(0, 4);
+---
+
+<Layout
+  title={`${artifact.name}, ${artifact.company} (${artifact.year}) — Merchback Machine`}
+  description={artifact.label}
+  compact={true}
+>
+  <div class="mx-auto max-w-5xl px-4 py-8">
+    <nav class="meta">
+      <a href="/browse" class="underline-ink">Holdings</a> / <a
+        href={`/company/${artifact.companySlug}`}
+        class="underline-ink">{artifact.company}</a
+      > / {accession(artifact)}
+    </nav>
+
+    <article class="mt-4 grid gap-8 md:grid-cols-[minmax(0,320px)_1fr]">
+      <div>
+        <div class="scanlines frame relative">
+          <SpecimenPlate artifact={artifact} />
+        </div>
+        <p class="acc mt-2 text-[var(--color-ink-3)]">
+          Fig. {accession(artifact)} — illustrated specimen plate. The archive holds no photographs;
+          plates are drawn from the recorded colorway.
+        </p>
+      </div>
+
+      <div>
+        <p class="acc text-[var(--color-capture)]">{accession(artifact)}</p>
+        <h2 class="mt-1 font-display text-3xl leading-tight font-bold sm:text-4xl">
+          {artifact.name}
+        </h2>
+        <p class="mt-2 text-sm">
+          <a href={`/company/${artifact.companySlug}`} class="underline-ink">{artifact.company}</a>
+          <span class="mx-2 text-[var(--color-ink-3)]">·</span>
+          <a href={`/year/${artifact.year}`} class="underline-ink">{artifact.year}</a>
+          {artifact.rarity === "grail" && <span class="stamp ml-3">grail</span>}
+        </p>
+
+        <p class="mt-5 text-base leading-relaxed">{artifact.label}</p>
+
+        <dl class="mt-7 grid grid-cols-2 gap-x-6 gap-y-4 border-t-2 border-ink pt-5">
+          <div>
+            <dt class="meta">Object class</dt>
+            <dd class="acc mt-1">{typeLabel(artifact.type)}</dd>
+          </div>
+          <div>
+            <dt class="meta">Scarcity</dt>
+            <dd class="acc mt-1">{RARITY_LABEL[artifact.rarity]}</dd>
+          </div>
+          <div>
+            <dt class="meta">Dating</dt>
+            <dd class="acc mt-1">
+              {artifact.year} · {artifact.dating === "documented" ? "documented" : "curatorial estimate"}
+            </dd>
+          </div>
+          <div>
+            <dt class="meta">Wing</dt>
+            <dd class="acc mt-1">{wing.name}</dd>
+          </div>
+          <div>
+            <dt class="meta">Recorded colorway</dt>
+            <dd class="mt-1 flex items-center gap-2">
+              <span
+                class="inline-block h-4 w-4 border border-ink"
+                style={`background:${artifact.base}`}
+                title={artifact.base}></span>
+              <span
+                class="inline-block h-4 w-4 border border-ink"
+                style={`background:${artifact.ink}`}
+                title={artifact.ink}></span>
+              {
+                artifact.trim && (
+                  <span
+                    class="inline-block h-4 w-4 border border-ink"
+                    style={`background:${artifact.trim}`}
+                    title={artifact.trim}
+                  />
+                )
+              }
+              <span class="acc ml-1">{artifact.base} / {artifact.ink}</span>
+            </dd>
+          </div>
+          <div>
+            <dt class="meta">Subject terms</dt>
+            <dd class="acc mt-1">{artifact.tags.join(" · ")}</dd>
+          </div>
+        </dl>
+
+        <div class="mt-6 flex flex-wrap gap-4 border-t border-rule pt-4">
+          {
+            prev && (
+              <a href={`/artifact/${prev.id}`} class="acc underline-ink">
+                ← {prev.name} ({prev.year})
+              </a>
+            )
+          }
+          {
+            next && (
+              <a href={`/artifact/${next.id}`} class="acc underline-ink ml-auto text-right">
+                {next.name} ({next.year}) →
+              </a>
+            )
+          }
+        </div>
+      </div>
+    </article>
+
+    {
+      related.length > 0 && (
+        <section class="mt-16">
+          <div class="flex flex-wrap items-end justify-between gap-2 border-b-2 border-ink pb-2">
+            <h3 class="font-display text-lg font-bold">
+              {siblings.length ? `More from ${artifact.company}` : `Also accessioned ${artifact.year}`}
+            </h3>
+            <a href="/browse" class="meta underline-ink">Full finding aid →</a>
+          </div>
+          <div class="mt-5 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+            {related.map((a) => (
+              <ArtifactTile artifact={a} />
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </div>
+</Layout>

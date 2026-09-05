@@ -1,0 +1,203 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import TimelineStrip from "@/components/TimelineStrip.astro";
+import ArtifactTile from "@/components/ArtifactTile.astro";
+import SpecimenPlate from "@/components/SpecimenPlate.tsx";
+import { byId, accession } from "@/data/collection";
+import {
+  ALL,
+  COMPANIES,
+  FEATURED,
+  FIRST_YEAR,
+  LAST_YEAR,
+  TYPE_COUNTS,
+  WINGS,
+  YEARS_WITH_HOLDINGS,
+} from "@/data/collection";
+
+const hero = byId("anthropic-thinking-cap");
+
+const wingCounts = WINGS.map((w) => ({
+  ...w,
+  count: ALL.filter((a) => a.year >= w.from && a.year <= w.to).length,
+}));
+---
+
+<Layout title="Merchback Machine — a digital museum of startup merch">
+  <!-- ============ THE MACHINE ============ -->
+  <section class="border-b-2 border-ink bg-ink text-[var(--color-paper)]">
+    <div class="mx-auto max-w-6xl px-4 py-10 sm:py-14">
+      <div class="grid gap-10 lg:grid-cols-[1.1fr_300px] lg:items-center">
+      <div>
+      <p class="font-mono text-[0.6rem] tracking-[0.2em] uppercase text-[var(--color-capture-2)]">
+        Est. one afternoon · Holdings {FIRST_YEAR}–{LAST_YEAR} · Admission free
+      </p>
+      <h2 class="mt-4 max-w-3xl font-display text-2xl leading-tight font-bold sm:text-4xl">
+        Every startup ships a shirt. Almost nobody keeps the receipt.
+      </h2>
+      <p class="mt-4 max-w-2xl text-sm leading-relaxed text-[var(--color-paper-2)] sm:text-base">
+        This is a museum for the cotton, the caps, the stickers and the very strange one-offs — the
+        Cursor tab key, the Anthropic <em>thinking</em> cap, the Venmo blue tee, IFTTT's argyle socks,
+        a literal Red Hat fedora. {ALL.length} objects, catalogued by year and by company, with the
+        dating shown honestly.
+      </p>
+
+      <form action="/browse" method="get" class="mt-7 max-w-xl">
+        <label
+          for="hero-q"
+          class="block font-mono text-[0.6rem] tracking-[0.18em] uppercase text-[var(--color-capture-2)]"
+        >
+          Enter a company, an object, a year
+        </label>
+        <div class="mt-2 flex items-stretch">
+          <input
+            id="hero-q"
+            type="search"
+            name="q"
+            placeholder="anthropic"
+            class="min-w-0 flex-1 border-2 border-[var(--color-paper)] border-r-0 bg-[var(--color-paper)] px-3 py-3 font-mono text-sm text-ink placeholder:text-[var(--color-ink-3)] focus:outline-none"
+          />
+          <button
+            type="submit"
+            class="border-2 border-[var(--color-paper)] bg-[var(--color-stamp)] px-5 py-3 font-mono text-[0.65rem] tracking-[0.16em] uppercase transition-colors hover:bg-[var(--color-paper)] hover:text-ink"
+          >
+            Retrieve
+          </button>
+        </div>
+        <p class="mt-2 font-mono text-[0.6rem] tracking-[0.1em] text-[var(--color-capture-2)]">
+          {YEARS_WITH_HOLDINGS.length} years with holdings · {COMPANIES.length} companies · {
+            TYPE_COUNTS.length
+          } object classes
+        </p>
+      </form>
+      </div>
+
+      {
+        hero && (
+          <aside class="hidden lg:block" aria-hidden="true">
+            <div class="frame -rotate-2 p-3 text-ink">
+              <div class="scanlines relative border border-ink">
+                <SpecimenPlate artifact={hero} />
+              </div>
+              <p class="acc mt-3 text-[var(--color-capture)]">{accession(hero)}</p>
+              <p class="font-display text-sm leading-snug font-bold">{hero.name}</p>
+              <p class="meta mt-1">
+                {hero.company} · {hero.year} · {hero.type}
+              </p>
+              <p class="meta mt-2 text-[var(--color-stamp)]">On display in the rotunda</p>
+            </div>
+          </aside>
+        )
+      }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TIMELINE ============ -->
+  <div class="mx-auto max-w-6xl px-4 py-12">
+    <TimelineStrip />
+
+    <!-- ============ WINGS ============ -->
+    <section class="mt-16">
+      <div class="flex flex-wrap items-end justify-between gap-2 border-b-2 border-ink pb-2">
+        <h2 class="font-display text-xl font-bold sm:text-2xl">The four wings</h2>
+        <p class="meta">Merch history, roughly divided</p>
+      </div>
+      <div class="mt-5 grid gap-4 sm:grid-cols-2">
+        {
+          wingCounts.map((w) => (
+            <a href={`/browse?wing=${w.id}`} class="frame-thin group block p-5 transition-colors hover:bg-[var(--color-paper-2)]">
+              <div class="flex items-baseline justify-between gap-3">
+                <h3 class="font-display text-lg font-bold group-hover:text-[var(--color-stamp)]">
+                  {w.name}
+                </h3>
+                <span class="acc whitespace-nowrap text-[var(--color-capture)]">
+                  {w.from}–{w.to}
+                </span>
+              </div>
+              <p class="mt-2 text-sm leading-relaxed">{w.blurb}</p>
+              <p class="meta mt-3">{w.count} objects →</p>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ============ CURATOR'S PICKS ============ -->
+    <section class="mt-16">
+      <div class="flex flex-wrap items-end justify-between gap-2 border-b-2 border-ink pb-2">
+        <h2 class="font-display text-xl font-bold sm:text-2xl">On display in the rotunda</h2>
+        <a href="/browse" class="meta underline-ink">All {ALL.length} holdings →</a>
+      </div>
+      <div class="mt-5 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+        {FEATURED.map((a) => <ArtifactTile artifact={a} />)}
+      </div>
+    </section>
+
+    <!-- ============ OBJECT CLASSES ============ -->
+    <section class="mt-16">
+      <div class="flex flex-wrap items-end justify-between gap-2 border-b-2 border-ink pb-2">
+        <h2 class="font-display text-xl font-bold sm:text-2xl">By object class</h2>
+        <p class="meta">What startups actually print on</p>
+      </div>
+      <div class="mt-5 flex flex-wrap gap-2">
+        {
+          TYPE_COUNTS.map((t) => (
+            <a
+              href={`/browse?type=${t.id}`}
+              class="border border-ink bg-[var(--color-card)] px-3 py-2 font-mono text-[0.65rem] tracking-[0.1em] uppercase transition-colors hover:bg-ink hover:text-[var(--color-paper)]"
+            >
+              {t.plural} <span class="text-[var(--color-stamp)]">{t.count}</span>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ============ COMPANIES ============ -->
+    <section id="companies" class="mt-16 scroll-mt-6">
+      <div class="flex flex-wrap items-end justify-between gap-2 border-b-2 border-ink pb-2">
+        <h2 class="font-display text-xl font-bold sm:text-2xl">Companies represented</h2>
+        <p class="meta">{COMPANIES.length} entries · alphabetical</p>
+      </div>
+      <div class="mt-5 grid grid-cols-2 gap-x-6 gap-y-0 sm:grid-cols-3 lg:grid-cols-4">
+        {
+          COMPANIES.map((c) => (
+            <a
+              href={`/company/${c.slug}`}
+              class="group flex items-baseline justify-between gap-2 border-b border-rule py-2.5"
+            >
+              <span class="flex min-w-0 items-baseline gap-2">
+                <span
+                  class="inline-block h-2.5 w-2.5 shrink-0 border border-ink"
+                  style={`background:${c.ink}`}
+                ></span>
+                <span class="truncate text-sm group-hover:text-[var(--color-stamp)]">{c.name}</span>
+              </span>
+              <span class="acc shrink-0 text-[var(--color-ink-3)]">{c.count}</span>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ============ DONATE ============ -->
+    <section class="mt-16 border-2 border-ink bg-[var(--color-paper-2)] p-6 sm:p-8">
+      <p class="stamp">gaps acknowledged</p>
+      <h2 class="mt-4 font-display text-xl font-bold sm:text-2xl">
+        The collection is incomplete on purpose. Help close it.
+      </h2>
+      <p class="mt-3 max-w-2xl text-sm leading-relaxed">
+        Have a shirt from a company that no longer exists? A conference badge nobody remembers? A
+        keycap, a plush, a hat with one lowercase word on it? Send it to the registrar and it gets an
+        accession number.
+      </p>
+      <a
+        href="/about#donate"
+        class="mt-5 inline-block border border-ink bg-ink px-5 py-2.5 font-mono text-[0.65rem] tracking-[0.16em] uppercase text-[var(--color-paper)] transition-colors hover:bg-[var(--color-stamp)]"
+      >
+        Donate an artifact
+      </a>
+    </section>
+  </div>
+</Layout>

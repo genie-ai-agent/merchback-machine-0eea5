@@ -1,0 +1,66 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import ArtifactTile from "@/components/ArtifactTile.astro";
+import { COMPANIES, byCompany } from "@/data/collection";
+
+export function getStaticPaths() {
+  return COMPANIES.map((c) => ({ params: { slug: c.slug }, props: { company: c } }));
+}
+
+const { company } = Astro.props;
+const items = byCompany(company.slug).sort((a, b) => a.year - b.year);
+const types = [...new Set(items.map((i) => i.type))];
+---
+
+<Layout
+  title={`${company.name} merch — Merchback Machine`}
+  description={`${company.count} ${company.name} merch objects catalogued, ${company.firstYear}–${company.lastYear}.`}
+  compact={true}
+>
+  <div class="mx-auto max-w-6xl px-4 py-8">
+    <nav class="meta">
+      <a href="/" class="underline-ink">Front desk</a> / <a href="/#companies" class="underline-ink">Companies</a> / {company.name}
+    </nav>
+
+    <div class="mt-4 flex flex-wrap items-end justify-between gap-4 border-b-2 border-ink pb-3">
+      <div class="flex items-center gap-3">
+        <span
+          class="inline-block h-8 w-8 shrink-0 border-2 border-ink"
+          style={`background:${company.ink}`}
+        ></span>
+        <div>
+          <p class="meta">Company wing</p>
+          <h2 class="font-display text-3xl leading-none font-bold sm:text-4xl">{company.name}</h2>
+        </div>
+      </div>
+      <p class="acc">
+        {company.count} object{company.count === 1 ? "" : "s"} · {company.firstYear}
+        {company.lastYear !== company.firstYear ? `–${company.lastYear}` : ""} · {types.length} class{
+          types.length === 1 ? "" : "es"
+        }
+      </p>
+    </div>
+
+    <div class="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
+      {items.map((a) => <ArtifactTile artifact={a} />)}
+    </div>
+
+    <div class="mt-14 border-t border-rule pt-6">
+      <p class="meta">Adjacent holdings</p>
+      <div class="mt-3 flex flex-wrap gap-2">
+        {
+          COMPANIES.filter((c) => c.slug !== company.slug)
+            .slice(0, 18)
+            .map((c) => (
+              <a
+                href={`/company/${c.slug}`}
+                class="border border-rule bg-[var(--color-card)] px-2.5 py-1.5 font-mono text-[0.62rem] tracking-[0.08em] uppercase transition-colors hover:border-ink hover:bg-ink hover:text-[var(--color-paper)]"
+              >
+                {c.name}
+              </a>
+            ))
+        }
+      </div>
+    </div>
+  </div>
+</Layout>

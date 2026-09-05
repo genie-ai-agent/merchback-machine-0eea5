@@ -1,0 +1,33 @@
+---
+import SpecimenPlate from "@/components/SpecimenPlate.tsx";
+import { accession, typeLabel } from "@/data/collection";
+import type { Artifact } from "@/data/types";
+
+interface Props {
+  artifact: Artifact;
+}
+const { artifact } = Astro.props;
+---
+
+<a href={`/artifact/${artifact.id}`} class="plate frame group relative block">
+  {
+    artifact.rarity === "grail" && (
+      <span class="stamp absolute top-2 right-2 z-10 bg-[var(--color-card)]">grail</span>
+    )
+  }
+  <div class="scanlines relative border-b border-ink">
+    <SpecimenPlate artifact={artifact} />
+  </div>
+  <div class="p-3">
+    <p class="acc text-[var(--color-capture)]">{accession(artifact)}</p>
+    <h3
+      class="mt-1 font-display text-[0.85rem] leading-snug font-bold sm:text-[0.95rem] group-hover:text-[var(--color-stamp)]"
+    >
+      {artifact.name}
+    </h3>
+    <p class="meta mt-1.5">
+      {artifact.company} · {artifact.year}{artifact.dating === "estimated" ? " ≈" : ""}
+    </p>
+    <p class="meta mt-0.5 text-[var(--color-ink-2)]">{typeLabel(artifact.type)}</p>
+  </div>
+</a>

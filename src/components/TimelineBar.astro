@@ -1,0 +1,31 @@
+---
+import { MAX_YEAR_COUNT } from "@/data/collection";
+
+interface Props {
+  year: number;
+  count: number;
+  active?: boolean;
+}
+const { year, count, active = false } = Astro.props;
+const h = count === 0 ? 4 : 16 + (count / MAX_YEAR_COUNT) * 88;
+---
+
+<div class="flex w-[16px] flex-col items-center gap-1 sm:w-[22px]">
+  <span
+    class="font-mono text-[0.55rem] leading-none text-[var(--color-ink-3)]"
+    style={count === 0 ? "opacity:0.25" : ""}
+  >
+    {count === 0 ? "·" : count}
+  </span>
+  <div
+    class={count === 0 ? "w-full bg-[var(--color-rule)]" : "capbar w-full"}
+    style={`height:${h}px;${active ? "background:var(--color-stamp);" : ""}`}
+  >
+  </div>
+  <span
+    class={`font-mono text-[0.55rem] leading-none ${active ? "font-semibold text-[var(--color-stamp)]" : "text-[var(--color-ink-2)]"}`}
+    style="writing-mode: vertical-rl; transform: rotate(180deg); height: 2.4rem;"
+  >
+    {year}
+  </span>
+</div>
