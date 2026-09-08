@@ -158,6 +158,34 @@ export const PHOTOS: Record<string, Photo> = {
     license: "community swag photo",
     note: "Snoo plush standing in for the sticker; the original sticker sheet is still undocumented.",
   },
+  "slack-hash-socks": {
+    src: "/plates/slack-hash-socks.jpg",
+    credit: "Photo: Swagalogue / Slack swag",
+    creditUrl: "https://swagalogue.com/company/slack",
+    license: "community swag photo",
+    note: "Official Slack sock drop (argyle colourway) with branded box; four-colour hash socks still undocumented.",
+  },
+  "square-reader-oddity": {
+    src: "/plates/square-reader-oddity.jpg",
+    credit: "Photo: Best Buy / Square Reader for magstripe",
+    creditUrl: "https://www.bestbuy.com/site/square-reader-for-magstripe-with-headset-jack-white/3282053.p?skuId=3282053",
+    license: "retail product photo",
+    note: "Classic white headset-jack magstripe reader (A-SKU-0047).",
+  },
+  "huggingface-emoji-plush": {
+    src: "/plates/huggingface-emoji-plush.jpg",
+    credit: "Photo: AI Store, Hugging Face sticker sheet",
+    creditUrl: "https://www.artificial-intelligence.store/collections/hugging-face",
+    license: "brand product photo",
+    note: "Hugging Face emoji sticker sheet standing in for the plush; official HF shop is currently dark.",
+  },
+  "yc-orange-hoodie": {
+    src: "/plates/yc-orange-hoodie.jpg",
+    credit: "Photo: Swagalogue / Y Combinator swag",
+    creditUrl: "https://swagalogue.com/company/y-combinator",
+    license: "community swag photo",
+    note: "W22 founder box (motto tee, orange Y mug, North Face with YC patch); the orange batch hoodie itself is still undocumented.",
+  },
 };
 
 export function photoFor(id: string): Photo | undefined {
