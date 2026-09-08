@@ -1,5 +1,8 @@
 ---
 import { ALL, CATALOGUE_UPDATED, COMPANIES, DOCUMENTED_COUNT, FIRST_YEAR, LAST_YEAR } from "@/data/collection";
+import { PHOTOS } from "@/data/photos";
+
+const PHOTO_COUNT = Object.keys(PHOTOS).length;
 ---
 
 <footer class="mt-20 border-t-2 border-ink bg-[var(--color-paper-2)]">
@@ -37,8 +40,8 @@ import { ALL, CATALOGUE_UPDATED, COMPANIES, DOCUMENTED_COUNT, FIRST_YEAR, LAST_Y
     <div class="mt-10 border-t border-rule pt-5">
       <p class="acc max-w-3xl leading-relaxed">
         A non-commercial fan archive. Names, logos and marks belong to their owners and appear here
-        for identification. Plates are illustrated, not photographs — the
-        <a href="/sources" class="underline-ink">rights desk</a> lists where the real ones live.
+        for identification. {PHOTO_COUNT} records carry a credited photograph; the rest are drawings, marked
+        as such. The <a href="/sources" class="underline-ink">rights desk</a> lists where the real ones live.
       </p>
       <p class="meta mt-4">Catalogue revision {CATALOGUE_UPDATED} · Built for the fun of it</p>
     </div>
