@@ -74,7 +74,7 @@ export const PHOTOS: Record<string, Photo> = {
     credit: "Photo: Mozilla Store, \u201cMozilla Dino t-shirt\u201d",
     creditUrl: "https://shop.mozilla.com/products/mozilla-dino-t-shirt",
     license: "brand product photo",
-    note: "The Mozilla dinosaur as the house shop prints it today, standing in for the Netscape-era original.",
+    note: "The Mozilla dinosaur as the house shop prints it today, standing in for the Netscape-era original. test",
   },
   "digitalocean-sammy-plush": {
     src: "/plates/digitalocean-sammy-plush.png",
