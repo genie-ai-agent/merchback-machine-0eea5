@@ -158,6 +158,40 @@ export const PHOTOS: Record<string, Photo> = {
     license: "community swag photo",
     note: "Snoo plush standing in for the sticker; the original sticker sheet is still undocumented.",
   },
+  "twitch-glitch-plush": {
+    src: "/plates/twitch-glitch-plush.jpg",
+    credit: "Photo: Twitch Merch / Amazon, “Glitch Pillow Plush”",
+    creditUrl: "https://www.amazon.com/Twitch-Glitch-Pillow-Plush/dp/B08XW3XCNN",
+    license: "brand product photo",
+  },
+  "docker-whale-sticker": {
+    src: "/plates/docker-whale-sticker.jpg",
+    credit: "Photo: Docker Store, “Works On My Machine Round Foil Sticker”",
+    creditUrl: "https://stores.kotisdesign.com/docker/stickers/works-on-my-machine-round-foil-sticker/171561",
+    license: "brand product photo",
+    note: "Official Docker store foil sticker with whale marks; classic Moby sticker sheet still undocumented.",
+  },
+  "bluesky-butterfly-tee": {
+    src: "/plates/bluesky-butterfly-tee.jpg",
+    credit: "Photo: Bluesky, “Mundus Sine Caesaribus” tee",
+    creditUrl: "https://worldwithoutcaesars.com/",
+    license: "brand product photo",
+    note: "Official Bluesky fundraiser tee (butterfly mark at the collar); not a butterfly-graphic shirt.",
+  },
+  "openai-devday-token-plaque": {
+    src: "/plates/openai-devday-token-plaque.jpg",
+    credit: "Photo: Swagalogue / OpenAI swag",
+    creditUrl: "https://swagalogue.com/company/openai",
+    license: "community swag photo",
+    note: "OpenAI apparel/bottle/cap flat lay standing in for the DevDay token plaque.",
+  },
+  "mailchimp-freddie-sticker": {
+    src: "/plates/mailchimp-freddie-sticker.jpg",
+    credit: "Photo: Mailchimp Brand Assets (Freddie)",
+    creditUrl: "https://mailchimp.com/about/brand-assets/",
+    license: "brand asset",
+    note: "Official winking Freddie brand mark standing in for a physical sticker sheet.",
+  },
 };
 
 export function photoFor(id: string): Photo | undefined {
