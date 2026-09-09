@@ -220,6 +220,34 @@ export const PHOTOS: Record<string, Photo> = {
     license: "brand asset",
     note: "Official winking Freddie brand mark standing in for a physical sticker sheet.",
   },
+  "raycast-sticker": {
+    src: "/plates/raycast-sticker.jpg",
+    credit: "Photo: Raycast Merch Store, “Sticker Pack”",
+    creditUrl: "https://shopify.raycast.com/products/sticker-pack",
+    license: "brand product photo",
+    note: "Official store lifestyle shot with Raycast logo sticker on a laptop lid.",
+  },
+  "redhat-shadowman-fedora": {
+    src: "/plates/redhat-shadowman-fedora.jpg",
+    credit: "Photo: Red Hat Brand Standards, “The hat”",
+    creditUrl: "https://www.redhat.com/en/about/brand/standards/the-hat",
+    license: "brand asset",
+    note: "Official brand-standards product shot of the red fedora; Shadowman-era conference hats differ.",
+  },
+  "notion-faces-tee": {
+    src: "/plates/notion-faces-tee.jpg",
+    credit: "Photo: Swagalogue / Notion swag",
+    creditUrl: "https://swagalogue.com/company/notion",
+    license: "community swag photo",
+    note: "Notion illustrated-faces merch flat lay (tote, pioneer postcards, stickers) standing in for the Faces tee.",
+  },
+  "sun-java-duke-tee": {
+    src: "/plates/sun-java-duke-tee.jpg",
+    credit: "Illustration: Wikimedia Commons, Duke 3D (Java mascot)",
+    creditUrl: "https://commons.wikimedia.org/wiki/File:Duke3D.png",
+    license: "BSD-licensed Duke graphics",
+    note: "Open-sourced Duke mascot standing in for the physical Java launch tee, which is still undocumented.",
+  },
 };
 
 export function photoFor(id: string): Photo | undefined {
